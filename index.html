@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Absensi Inputer Lebak</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -39,12 +43,39 @@
         }
         .animate-fade-up { animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         
-        /* 3. ANIMASI KASING MUSIK BERPUTAR */
+        /* 3. ANIMASI KASET MUSIK BERPUTAR */
         @keyframes rotate-music {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
         .animate-spin-slow { animation: rotate-music 4s linear infinite; }
+
+        /* 4. ANIMASI DI LUAR KARTU (GLOBAL BACKGROUND) */
+        @keyframes drift-outside {
+            0% { transform: translateX(-150%) translateY(0); }
+            50% { transform: translateX(50vw) translateY(-25px); }
+            100% { transform: translateX(100vw) translateY(0); }
+        }
+        .animate-drift-outside-slow { animation: drift-outside 65s linear infinite; }
+        .animate-drift-outside-sun { animation: drift-outside 50s linear infinite; }
+        .animate-drift-outside-moon { animation: drift-outside 58s linear infinite; }
+
+        /* 5. ANIMASI DI DALAM KARTU (INTERNAL FLOATING) */
+        @keyframes drift-inside {
+            0% { transform: translateX(-100px) rotate(0deg); }
+            100% { transform: translateX(460px) rotate(360deg); }
+        }
+        .animate-cloud-in-slow { animation: drift-inside 35s linear infinite; }
+        .animate-cloud-in-fast { animation: drift-inside 22s linear infinite; }
+        .animate-sun-in { animation: drift-inside 26s linear infinite; }
+        .animate-moon-in { animation: drift-inside 31s linear infinite; }
+
+        /* 6. ANIMASI KEDIPAN BINTANG (TWINKLE) */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.3) rotate(180deg); }
+        }
+        .animate-twinkle { animation: twinkle 3s ease-in-out infinite; }
 
         ::-webkit-scrollbar { width: 0px; }
     </style>
@@ -59,41 +90,62 @@
     <div class="fixed top-[20%] right-[-10%] w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-[80px] opacity-60 animate-blob animation-delay-2000 z-0"></div>
     <div class="fixed bottom-[-20%] left-[20%] w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-[80px] opacity-60 animate-blob animation-delay-4000 z-0"></div>
 
+    <div class="fixed top-[6%] left-0 text-amber-400/40 pointer-events-none animate-drift-outside-sun z-0 drop-shadow-[0_0_15px_rgba(251,191,36,0.3)]">
+        <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 17.95a1 1 0 011.414 0l.707-.707a1 1 0 01-1.414-1.414l-.707.707a1 1 0 010 1.414zm2.12-14.142a1 1 0 010-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707a1 1 0 01-1.414 0zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" clip-rule="evenodd"/></svg>
+    </div>
+
+    <div class="fixed top-[28%] left-0 text-indigo-400/40 pointer-events-none animate-drift-outside-moon z-0 drop-shadow-[0_0_15px_rgba(129,140,248,0.3)]" style="animation-delay: -20s;">
+        <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+    </div>
+
+    <div class="fixed top-[12%] left-0 w-64 h-20 opacity-25 pointer-events-none animate-drift-outside-slow z-0 filter blur-[1px]" style="animation-delay: -10s;">
+        <div class="bg-white rounded-full w-24 h-24 absolute -top-8 left-8"></div>
+        <div class="bg-white rounded-full w-16 h-16 absolute -top-3 left-0"></div>
+        <div class="bg-white rounded-full w-full h-8 absolute bottom-0"></div>
+    </div>
+
+    <div class="fixed top-[15%] left-[15%] text-amber-300 text-xl animate-twinkle pointer-events-none z-0">✦</div>
+    <div class="fixed top-[8%] right-[20%] text-indigo-300 text-2xl animate-twinkle pointer-events-none z-0" style="animation-delay: 1s;">✦</div>
+    <div class="fixed bottom-[30%] left-[8%] text-purple-300 text-lg animate-twinkle pointer-events-none z-0" style="animation-delay: 2s;">✦</div>
+    <div class="fixed bottom-[15%] right-[12%] text-pink-300 text-xl animate-twinkle pointer-events-none z-0" style="animation-delay: 0.5s;">✦</div>
     <div class="relative z-10 w-full max-w-md rounded-[2.5rem] p-[3px] running-border shadow-[0_25px_60px_rgba(15,23,42,0.15)] animate-fade-up">
-        <div class="bg-white/85 backdrop-blur-2xl w-full h-full rounded-[2.4rem] p-8 relative z-10">
+        <div class="bg-white/85 backdrop-blur-2xl w-full h-full rounded-[2.4rem] p-8 relative z-10 overflow-hidden">
             
-            <div class="text-center mb-8 relative z-10">
+            <div class="absolute top-[6%] left-0 text-amber-500 opacity-80 pointer-events-none animate-sun-in z-0 drop-shadow-sm">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 17.95a1 1 0 011.414 0l.707-.707a1 1 0 01-1.414-1.414l-.707.707a1 1 0 010 1.414zm2.12-14.142a1 1 0 010-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707a1 1 0 01-1.414 0zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" clip-rule="evenodd"/></svg>
+            </div>
+
+            <div class="absolute top-[20%] left-0 text-indigo-500 opacity-75 pointer-events-none animate-moon-in z-0 drop-shadow-sm" style="animation-delay: -12s;">
+                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+            </div>
+
+            <div class="absolute top-[14%] left-0 w-32 h-8 opacity-65 pointer-events-none animate-cloud-in-slow z-0 filter blur-[1px]" style="animation-delay: -5s;">
+                <div class="bg-blue-100/70 rounded-full w-12 h-12 absolute -top-4 left-4"></div>
+                <div class="bg-blue-100/70 rounded-full w-8 h-8 absolute -top-2 left-0"></div>
+                <div class="bg-blue-100/70 rounded-full w-full h-4 absolute bottom-0"></div>
+            </div>
+
+            <div class="absolute bottom-[25%] left-0 w-40 h-10 opacity-55 pointer-events-none animate-cloud-in-fast z-0 filter blur-[0.5px]" style="animation-delay: -15s;">
+                <div class="bg-purple-100/60 rounded-full w-14 h-14 absolute -top-5 left-5"></div>
+                <div class="bg-purple-100/60 rounded-full w-10 h-10 absolute -top-2 right-2"></div>
+                <div class="bg-purple-100/60 rounded-full w-full h-5 absolute bottom-0"></div>
+            </div>
+
+            <div class="absolute top-[5%] right-[20%] text-amber-400 text-xs animate-twinkle pointer-events-none z-0">✦</div>
+            <div class="absolute top-[42%] left-[6%] text-indigo-400 text-sm animate-twinkle pointer-events-none z-0" style="animation-delay: 1.5s;">✦</div>
+            <div class="absolute bottom-[35%] right-[8%] text-pink-400 text-xs animate-twinkle pointer-events-none z-0" style="animation-delay: 0.7s;">✦</div>
+            <div class="text-center mb-6 relative z-10">
+                <div class="w-24 h-24 mx-auto mb-3 bg-white/40 backdrop-blur-sm rounded-2xl p-2 shadow-md shadow-purple-500/10 flex items-center justify-center border-2 border-purple-500/60 animate-bounce" style="animation-duration: 4s;">
+                    <img src="barudak-input-transparent.png" alt="Logo Barudak Inputer" class="w-full h-full object-contain">
+                </div>
                 
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-20 h-20 mx-auto mb-3 animate-bounce" style="animation-duration: 4s;">
-                    <defs>
-                        <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#3b82f6" />
-                            <stop offset="50%" stop-color="#a855f7" />
-                            <stop offset="100%" stop-color="#ec4899" />
-                        </linearGradient>
-                        <filter id="glowEffect" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="1.5" result="blur" />
-                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                        </filter>
-                    </defs>
-                    
-                    <circle cx="50" cy="50" r="42" fill="none" stroke="url(#logoGrad)" stroke-width="2.5" stroke-dasharray="6 4" opacity="0.7" />
-                    <circle cx="50" cy="50" r="34" fill="none" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.4" />
-                    
-                    <circle cx="50" cy="8" r="2.5" fill="#3b82f6" />
-                    <circle cx="92" cy="50" r="2.5" fill="#a855f7" />
-                    <circle cx="50" cy="92" r="2.5" fill="#ec4899" />
-                    <circle cx="8" cy="50" r="2.5" fill="#3b82f6" />
-                    
-                    <path d="M36 52 L46 61 L66 35" fill="none" stroke="url(#logoGrad)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowEffect)" />
-                </svg>
                 <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent tracking-tight">
                     Presensi Inputer Lebak
                 </h1>
                 <p class="text-slate-500 text-sm mt-1">Verifikasi identitas Anda hari ini</p>
             </div>
 
-            <form id="attendanceForm" class="space-y-6">
+            <form id="attendanceForm" class="space-y-6 relative z-10">
                 <div class="space-y-1 relative group">
                     <input type="text" id="empName" required placeholder="Nama Lengkap Anda" 
                         class="w-full px-6 py-4 bg-white/90 border-2 border-slate-100 rounded-full text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-400/20 transition-all duration-300 shadow-sm hover:shadow-md">
@@ -166,15 +218,13 @@
 
         let imgBase64 = "";
 
-        // Trigger musik otomatis pada interaksi/klik pertama pengguna
         document.addEventListener('click', () => {
             if (bgMusic.paused) {
-                bgMusic.play().catch(err => console.log("Autoplay ditangguhkan browser:", err));
+                bgMusic.play().catch(err => console.log("Autoplay ditangguhkan:", err));
                 musicIcon.classList.add('animate-spin-slow');
             }
         }, { once: true });
 
-        // Tombol kontrol manual musik (Mute / Play)
         musicToggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (bgMusic.paused) {
@@ -190,12 +240,10 @@
             }
         });
 
-        // Membuka Akses Kamera Depan
         navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false })
             .then(stream => { video.srcObject = stream; })
             .catch(err => { alert("Harap izinkan akses kamera pada browser Anda."); });
 
-        // Aksi Mengambil Gambar Selfie
         captureBtn.addEventListener('click', () => {
             const context = canvas.getContext('2d');
             const scaleFactor = 640 / video.videoWidth;
@@ -215,7 +263,6 @@
             retakeBtn.classList.remove('hidden');
         });
 
-        // Aksi Foto Ulang
         retakeBtn.addEventListener('click', () => {
             imgBase64 = "";
             photoPreview.classList.add('hidden');
@@ -230,7 +277,6 @@
         style.innerHTML = `@keyframes shimmer { 100% { transform: translateX(100%); } }`;
         document.head.appendChild(style);
 
-        // Mengirimkan Data Absensi ke Google Sheets Database
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             if (!imgBase64) { alert("Wajah Anda belum terverifikasi. Silakan ambil foto selfie!"); return; }
