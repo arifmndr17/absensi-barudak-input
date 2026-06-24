@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi Inputer Lebak</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f1f5f9; overflow-x: hidden; }
+        
+        /* 1. ANIMASI BORDER BERJALAN GRADIENT */
+        @keyframes spin-border {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .running-border { position: relative; overflow: hidden; }
+        .running-border::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, #3b82f6, #a855f7, #ec4899, #3b82f6);
+            animation: spin-border 4s linear infinite; z-index: 0;
+        }
+
+        /* 2. ANIMASI BACKGROUND BLOBS */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob { animation: blob 7s infinite; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+        
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up { animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        /* 3. ANIMASI KASING MUSIK BERPUTAR */
+        @keyframes rotate-music {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow { animation: rotate-music 4s linear infinite; }
+
+        ::-webkit-scrollbar { width: 0px; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 relative">
+
+    <audio id="bgMusic" loop>
+        <source src="my-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="fixed top-[-10%] left-[-10%] w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-[80px] opacity-60 animate-blob z-0"></div>
+    <div class="fixed top-[20%] right-[-10%] w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-[80px] opacity-60 animate-blob animation-delay-2000 z-0"></div>
+    <div class="fixed bottom-[-20%] left-[20%] w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-[80px] opacity-60 animate-blob animation-delay-4000 z-0"></div>
+
+    <div class="relative z-10 w-full max-w-md rounded-[2.5rem] p-[3px] running-border shadow-[0_25px_60px_rgba(15,23,42,0.15)] animate-fade-up">
+        <div class="bg-white/85 backdrop-blur-2xl w-full h-full rounded-[2.4rem] p-8 relative z-10">
+            
+            <div class="text-center mb-8 relative z-10">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-20 h-20 mx-auto mb-3 animate-bounce" style="animation-duration: 4s;">
+                    <defs>
+                        <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#3b82f6" />
+                            <stop offset="50%" stop-color="#a855f7" />
+                            <stop offset="100%" stop-color="#ec4899" />
+                        </linearGradient>
+                        <filter id="glowEffect" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="1.5" result="blur" />
+                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        </filter>
+                    </defs>
+                    
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="url(#logoGrad)" stroke-width="2.5" stroke-dasharray="6 4" opacity="0.7" />
+                    <circle cx="50" cy="50" r="34" fill="none" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.4" />
+                    
+                    <circle cx="50" cy="8" r="2.5" fill="#3b82f6" />
+                    <circle cx="92" cy="50" r="2.5" fill="#a855f7" />
+                    <circle cx="50" cy="92" r="2.5" fill="#ec4899" />
+                    <circle cx="8" cy="50" r="2.5" fill="#3b82f6" />
+                    
+                    <path d="M36 52 L46 61 L66 35" fill="none" stroke="url(#logoGrad)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowEffect)" />
+                </svg>
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent tracking-tight">
+                    Presensi Inputer Lebak
+                </h1>
+                <p class="text-slate-500 text-sm mt-1">Verifikasi identitas Anda hari ini</p>
+            </div>
+
+            <form id="attendanceForm" class="space-y-6">
+                <div class="space-y-1 relative group">
+                    <input type="text" id="empName" required placeholder="Nama Lengkap Anda" 
+                        class="w-full px-6 py-4 bg-white/90 border-2 border-slate-100 rounded-full text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-400/20 transition-all duration-300 shadow-sm hover:shadow-md">
+                </div>
+
+                <div class="bg-white/90 p-1.5 rounded-full border-2 border-slate-100 flex shadow-sm relative">
+                    <label class="flex-1 text-center relative cursor-pointer group">
+                        <input type="radio" name="attendanceType" value="Masuk" checked class="peer sr-only">
+                        <div class="py-2.5 rounded-full text-sm font-semibold text-slate-500 transition-all duration-300 peer-checked:bg-blue-500 peer-checked:text-white peer-checked:shadow-md peer-checked:shadow-blue-500/40 group-hover:bg-slate-100 peer-checked:group-hover:bg-blue-500">
+                            Masuk Kerja
+                        </div>
+                    </label>
+                    <label class="flex-1 text-center relative cursor-pointer group">
+                        <input type="radio" name="attendanceType" value="Pulang" class="peer sr-only">
+                        <div class="py-2.5 rounded-full text-sm font-semibold text-slate-500 transition-all duration-300 peer-checked:bg-rose-500 peer-checked:text-white peer-checked:shadow-md peer-checked:shadow-rose-500/40 group-hover:bg-slate-100 peer-checked:group-hover:bg-rose-500">
+                            Pulang Kerja
+                        </div>
+                    </label>
+                </div>
+
+                <div class="flex flex-col items-center justify-center pt-2">
+                    <div class="relative w-40 h-40 rounded-full bg-slate-900 border-4 border-white shadow-xl shadow-slate-300/50 flex items-center justify-center overflow-hidden group">
+                        <div class="absolute inset-0 rounded-full ring-4 ring-blue-400/50 animate-pulse pointer-events-none"></div>
+                        <video id="video" autoplay playsinline class="w-full h-full object-cover scale-x-[-1] transition-transform duration-700 group-hover:scale-[1.1]"></video>
+                        <canvas id="canvas" class="hidden"></canvas>
+                        <img id="photoPreview" class="hidden w-full h-full object-cover scale-x-[-1]">
+                        <div id="cameraStatus" class="absolute bottom-4 bg-black/50 backdrop-blur-sm text-white text-[9px] px-3 py-1 rounded-full font-medium tracking-wider">HADAP KAMERA</div>
+                    </div>
+                    <div class="flex gap-3 mt-5 w-full">
+                        <button type="button" id="captureBtn" class="flex-1 bg-slate-800 text-white text-xs font-semibold py-3 px-4 rounded-full shadow-lg shadow-slate-800/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            Ambil Foto
+                        </button>
+                        <button type="button" id="retakeBtn" class="hidden flex-1 bg-rose-100 text-rose-600 border border-rose-200 text-xs font-semibold py-3 px-4 rounded-full hover:bg-rose-200 hover:-translate-y-1 transition-all duration-300">Ulangi</button>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full mt-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-semibold py-4 rounded-full shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 relative overflow-hidden group">
+                    <span class="relative z-10 flex items-center justify-center gap-2">
+                        Kirim Data Kehadiran
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </span>
+                    <div class="absolute inset-0 h-full w-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="musicToggleBtn" class="w-12 h-12 rounded-full bg-white/80 backdrop-blur-md shadow-lg border border-slate-200/60 flex items-center justify-center text-slate-700 hover:scale-110 active:scale-95 transition-all duration-300 group cursor-pointer">
+            <svg id="musicIcon" class="w-5 h-5 text-indigo-600 animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const photoPreview = document.getElementById('photoPreview');
+        const captureBtn = document.getElementById('captureBtn');
+        const retakeBtn = document.getElementById('retakeBtn');
+        const cameraStatus = document.getElementById('cameraStatus');
+        const form = document.getElementById('attendanceForm');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggleBtn = document.getElementById('musicToggleBtn');
+        const musicIcon = document.getElementById('musicIcon');
+
+        let imgBase64 = "";
+
+        // Trigger musik otomatis pada interaksi/klik pertama pengguna
+        document.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play().catch(err => console.log("Autoplay ditangguhkan browser:", err));
+                musicIcon.classList.add('animate-spin-slow');
+            }
+        }, { once: true });
+
+        // Tombol kontrol manual musik (Mute / Play)
+        musicToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicIcon.classList.add('animate-spin-slow');
+                musicIcon.classList.remove('text-slate-400');
+                musicIcon.classList.add('text-indigo-600');
+            } else {
+                bgMusic.pause();
+                musicIcon.classList.remove('animate-spin-slow');
+                musicIcon.classList.remove('text-indigo-600');
+                musicIcon.classList.add('text-slate-400');
+            }
+        });
+
+        // Membuka Akses Kamera Depan
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false })
+            .then(stream => { video.srcObject = stream; })
+            .catch(err => { alert("Harap izinkan akses kamera pada browser Anda."); });
+
+        // Aksi Mengambil Gambar Selfie
+        captureBtn.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            const scaleFactor = 640 / video.videoWidth;
+            canvas.width = 640;
+            canvas.height = video.videoHeight * scaleFactor;
+            context.translate(canvas.width, 0);
+            context.scale(-1, 1);
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            imgBase64 = canvas.toDataURL('image/jpeg', 0.8);
+            photoPreview.src = imgBase64;
+            photoPreview.classList.remove('hidden');
+            video.classList.add('hidden');
+            cameraStatus.innerText = "FOTO TEREKAM";
+            cameraStatus.classList.replace('bg-black/50', 'bg-emerald-500/80');
+            captureBtn.classList.add('hidden');
+            retakeBtn.classList.remove('hidden');
+        });
+
+        // Aksi Foto Ulang
+        retakeBtn.addEventListener('click', () => {
+            imgBase64 = "";
+            photoPreview.classList.add('hidden');
+            video.classList.remove('hidden');
+            cameraStatus.innerText = "HADAP KAMERA";
+            cameraStatus.classList.replace('bg-emerald-500/80', 'bg-black/50');
+            captureBtn.classList.remove('hidden');
+            retakeBtn.classList.add('hidden');
+        });
+
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes shimmer { 100% { transform: translateX(100%); } }`;
+        document.head.appendChild(style);
+
+        // Mengirimkan Data Absensi ke Google Sheets Database
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!imgBase64) { alert("Wajah Anda belum terverifikasi. Silakan ambil foto selfie!"); return; }
+
+            const nama = document.getElementById('empName').value;
+            const tipe = document.querySelector('input[name="attendanceType"]:checked').value;
+            const originalBtnContent = submitBtn.innerHTML;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <span class="relative z-10 flex items-center justify-center gap-2">
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    Sistem Mengirim...
+                </span>`;
+
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbxF-Z1em4hmyre3crOe_jQ6M5hdCPn3UEeZ06iM_t5BUYJC91h6L6OVYrPbr0B_KdAGuQ/exec";
+
+            fetch(webAppUrl, {
+                method: "POST",
+                mode: "no-cors", 
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nama: nama, tipe: tipe, foto: imgBase64 })
+            })
+            .then(() => {
+                alert(`Presensi ${tipe} atas nama ${nama} Berhasil! \nSelamat bekerja.`);
+                form.reset();
+                retakeBtn.click();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnContent;
+            })
+            .catch(error => {
+                alert("Pengiriman gagal, silakan cek koneksi internet Anda.");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnContent;
+            });
+        });
+    </script>
+</body>
+</html>
